@@ -16,18 +16,22 @@ match tokens.get(1){
 
 ```Rust
 struct Task{
-    text : &str,
-    tags : Vec<&str>,
+    text : string,
+    tags : Vec<string>,
     .timestamp : string,
-    importance : [0..3] (u8),
+    importance : [0..3] (usize),
     status : bool,
 };
 ```
 # Text format
 
-[status] .timestamp
+[status] 
+timestamp  : 
 text : " "
+tags : 
 imptnce : [0..3]
+end.
+
 
 
 # config.json

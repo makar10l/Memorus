@@ -8,6 +8,6 @@ pub struct Task {
 }
 
 impl Task {
-    pub fn add(&self, path: &str) {}
+    pub fn add(&self) {}
     pub fn list() {}
 }

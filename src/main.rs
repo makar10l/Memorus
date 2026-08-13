@@ -1,5 +1,8 @@
+mod parser;
 mod task;
-mod markdown;
-fn main(){
-    markdown::deserialize("tasks.md");
+
+fn main() {
+    let args: Vec<String> = std::env::args().collect();
+    let task = parser::parse(&args).unwrap();
+    println!("{:?}", task);
 }

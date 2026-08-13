@@ -1,5 +1,5 @@
 ```bash
-$ memorus add text @tag
+$ memorus add text @tag !
 ```
 
 # parser.rs 

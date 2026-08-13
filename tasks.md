@@ -1,3 +1,0 @@
-# [+] / 2010.26.06:12.00
-TASK : shit
-IMPORTANCE : 2

@@ -21,19 +21,21 @@ pub fn decode(path: &str) -> Option<Vec<task::Task>> {
     };
 
     for line in buffer.lines() {
-        //delete this unwraps
-        let mut _line = line.unwrap();
+        let mut _line = match line {
+            Ok(l) => l,
+            Err(_) => continue,
+        };
         let mut tokens_iter = _line.as_str().split_whitespace();
 
-        let key_word = tokens_iter.next().unwrap();
+        let key_word = tokens_iter.next().unwrap_or("");
         match key_word {
             "[]" | "[+]" => temp_task.status = key_word.contains("+"),
             "text" => {
                 tokens_iter.next();
-                temp_task.text = tokens_iter.next().unwrap().to_string();
+                temp_task.text = tokens_iter.next().unwrap_or("").to_string();
             }
             "text:" => {
-                temp_task.text = tokens_iter.next().unwrap().to_string();
+                temp_task.text = tokens_iter.next().unwrap_or("").to_string();
             }
             "end." => {
                 tasks.push(temp_task);

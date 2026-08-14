@@ -11,3 +11,13 @@ impl Task {
     pub fn add(&self) {}
     pub fn list() {}
 }
+#[inline(always)]
+pub fn create_task() -> Task {
+    Task {
+        status: false,
+        text: "".to_string(),
+        tags: vec![],
+        time: "".to_string(),
+        importance: 0,
+    }
+}

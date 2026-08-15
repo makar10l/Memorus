@@ -1,5 +1,5 @@
 ```bash
-$ memorus add text @tag !
+$ memorus add text @tag ^
 ```
 
 # task.rs/create_task done.

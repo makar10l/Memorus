@@ -1,5 +1,6 @@
 use crate::task;
-use std::io::BufRead;
+use std::fs::OpenOptions;
+use std::io::{BufRead, BufWriter, Write};
 use std::{fs::File, io};
 
 //rewrite path to config reader
@@ -33,10 +34,22 @@ pub fn decode(path: &str) -> Result<Vec<task::Task>, String> {
                 temp_task.text = tokens_iter.next().unwrap_or("").to_string();
             }
 
-            "text:" => {
-                temp_task.text = tokens_iter.next().unwrap_or("").to_string();
+            "timestamp" => {
+                tokens_iter.next();
+                temp_task.timestamp = tokens_iter.next().unwrap_or("").to_string();
             }
 
+            "importance" => {
+                tokens_iter.next();
+                temp_task.importance = tokens_iter.next().unwrap_or("").parse().unwrap_or(0);
+            }
+
+            "tags" => {
+                tokens_iter.next();
+                for tag in tokens_iter {
+                    temp_task.tags.push(tag.to_string())
+                }
+            }
             "end." => {
                 tasks.push(temp_task);
                 temp_task = task::create_empty_task();
@@ -53,4 +66,11 @@ pub fn decode(path: &str) -> Result<Vec<task::Task>, String> {
         }
     }
     Ok(tasks)
+}
+//delete unwraps(59, lines)
+pub fn coder(tasks: &[task::Task], path: &str) {
+    let file = OpenOptions::new().append(true).open(path).unwrap();
+    let mut writer = BufWriter::new(file);
+    writer.write_all("\nFuck you".as_bytes()).unwrap();
+    writer.flush().unwrap();
 }

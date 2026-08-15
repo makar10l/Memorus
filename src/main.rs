@@ -8,7 +8,7 @@ fn main() {
     match formatter::decode("tests/tasks.md") {
         Ok(tasks) => {
             for task in tasks {
-                println!("{:?}", task);
+                println!("{:#?}", task);
             }
         }
         Err(err) => {

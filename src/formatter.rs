@@ -1,6 +1,7 @@
 use crate::task;
 use std::io::BufRead;
 use std::{fs::File, io};
+
 //rewrite path to config reader
 pub fn decode(path: &str) -> Result<Vec<task::Task>, String> {
     let mut tasks: Vec<task::Task> = vec![];
@@ -12,7 +13,7 @@ pub fn decode(path: &str) -> Result<Vec<task::Task>, String> {
         }
     };
     let buffer = io::BufReader::new(file);
-    let mut temp_task = task::create_task();
+    let mut temp_task = task::create_empty_task();
 
     for (line_number, line) in buffer.lines().enumerate() {
         let mut _line = match line {
@@ -38,7 +39,7 @@ pub fn decode(path: &str) -> Result<Vec<task::Task>, String> {
 
             "end." => {
                 tasks.push(temp_task);
-                temp_task = task::create_task();
+                temp_task = task::create_empty_task();
             }
 
             _ => {

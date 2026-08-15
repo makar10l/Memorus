@@ -2,14 +2,14 @@
 $ memorus add text @tag !
 ```
 
-# parser.rs done.
+# task.rs/create_task done.
   ```PseudoRust
-  "memorus add text @tag @tag_2 !!!"
+  "memorus add text @tag @tag_2 ^^^"
   
-  tokens = [memorus, add,text,tag,tag,!!!];
+  tokens = [text,tag,tag,^^^];
   
   match tokens.get(1){
-    "add" => add
+    tag=>tag.push(),
     etc.
   }
   ```

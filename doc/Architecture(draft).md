@@ -24,7 +24,11 @@ $ memorus add text @tag ^
       status : bool,
   };
   ```
-  
+# task.rs/token functions
+
+for EVERY token(text,tags, etc.) 
+must be selected function-coder to text format
+
 # Text format 50/50(only decoder)
 
   [status] 

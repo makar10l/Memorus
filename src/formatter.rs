@@ -1,4 +1,5 @@
 use crate::task;
+use crate::token;
 use std::fs::OpenOptions;
 use std::io::{BufRead, BufWriter, Write};
 use std::{fs::File, io};
@@ -54,7 +55,7 @@ pub fn decode(path: &str) -> Result<Vec<task::Task>, String> {
                 tasks.push(temp_task);
                 temp_task = task::create_empty_task();
             }
-
+            "" => continue,
             _ => {
                 return Err(format!(
                     "Error in line -> '{} : {}' : Unexpected symbol",
@@ -67,10 +68,28 @@ pub fn decode(path: &str) -> Result<Vec<task::Task>, String> {
     }
     Ok(tasks)
 }
-//delete unwraps(59, lines)
-pub fn coder(tasks: &[task::Task], path: &str) {
-    let file = OpenOptions::new().append(true).open(path).unwrap();
+
+pub fn coder(tasks: &[task::Task], path: &str) -> Result<(), token::Error<std::io::Error>> {
+    let file = match OpenOptions::new().append(true).open(path) {
+        Ok(fd) => fd,
+        Err(err) => return Err(token::Error::UndefinedError(err)),
+    };
     let mut writer = BufWriter::new(file);
-    writer.write_all("\nFuck you".as_bytes()).unwrap();
-    writer.flush().unwrap();
+
+    for task in tasks {
+        token::status(&mut writer, &task)?;
+        token::text(&mut writer, &task)?;
+        token::importance(&mut writer, &task)?;
+        token::tags(&mut writer, &task)?;
+        token::timestamp(&mut writer, &task)?;
+        match writer.write_all("end.\n".as_bytes()) {
+            Ok(_) => (),
+            Err(err) => return Err(token::Error::UndefinedError(err)),
+        };
+        match writer.flush() {
+            Ok(_) => (),
+            Err(err) => return Err(token::Error::UndefinedError(err)),
+        };
+    }
+    Ok(())
 }

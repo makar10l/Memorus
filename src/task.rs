@@ -13,6 +13,7 @@ impl Task {
     pub fn add(&self) {}
     pub fn list() {}
 }
+
 #[inline(always)]
 pub fn create_empty_task() -> Task {
     Task {

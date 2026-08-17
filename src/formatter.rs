@@ -4,7 +4,7 @@ use std::fs::OpenOptions;
 use std::io::{BufRead, BufWriter, Write};
 use std::{fs::File, io};
 
-//rewrite path to config reader
+//rewrite path to config reader and rewrite match kinda like in coder
 pub fn decode(path: &str) -> Result<Vec<task::Task>, String> {
     let mut tasks: Vec<task::Task> = vec![];
     let file = match File::open(path) {
@@ -82,6 +82,7 @@ pub fn coder(tasks: &[task::Task], path: &str) -> Result<(), token::Error<std::i
         token::importance(&mut writer, &task)?;
         token::tags(&mut writer, &task)?;
         token::timestamp(&mut writer, &task)?;
+
         match writer.write_all("end.\n".as_bytes()) {
             Ok(_) => (),
             Err(err) => return Err(token::Error::UndefinedError(err)),

@@ -1,6 +1,7 @@
 use crate::task;
 use std::fs::File;
 use std::io::{BufWriter, Write};
+
 pub enum Error<T> {
     TokenWriteError,
     UndefinedError(T),
